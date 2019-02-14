@@ -310,7 +310,7 @@ import UIKit
         
         for i in 0 ..< controllers.count {
             
-            if let vc = controllers[i] as? BWWalkthroughPage{
+            if let vc = controllers[i] as? UIViewController & BWWalkthroughPage {
             
                 let mx = ((scrollview.contentOffset.x + view.bounds.size.width) - (view.bounds.size.width * CGFloat(i))) / view.bounds.size.width
                 
@@ -326,6 +326,12 @@ import UIKit
                 if(mx < 2 && mx > -2.0){
                     vc.walkthroughDidScroll(to:scrollview.contentOffset.x, offset: mx)
                 }
+              
+                if appearingViewController == nil, vc != currentViewController, mx > 0, mx < 2 {
+                  appearingViewController = vc
+                  appearingViewController?.beginAppearanceTransition(true, animated: false)
+                }
+              
             }
         }
     }
